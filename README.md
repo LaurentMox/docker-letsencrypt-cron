@@ -19,14 +19,16 @@ In docker-compose.yml, change the environment variables:
 ### Using the automated image
 
 ```shell
-docker run --name certbot --restart=unless-stopped \
+docker run --name certbot -d --restart=unless-stopped \
     -v /etc/letsencrypt:/etc/letsencrypt \
     -v /var/lib/letsencrypt:/var/lib/letsencrypt \
     -v `pwd`/certs:/certs \
-    -e "DOMAINS=domain1.com domain2.com" \
-    -e "EMAIL=webmaster@domain1.com" \
-    -e "CONCAT=true" \
-    -e "WEBROOT=" \
+    -v /var/www/html:/var/www/html \
+    -e WEBROOT=/var/www/html \
+    -e DOMAINS="domain1.com domain2.com" \
+    -e EMAIL=webmaster@domain1.com \
+    -e SEPARATE=false \
+    -e CONCAT=false \
     sandinh/certbot-cron
 ```
 

@@ -36,7 +36,7 @@ get_certificate() {
 args=""
 if [ $WEBROOT ]
 then
-  args=" --webroot $WEBROOT"
+  args=" --webroot -w $WEBROOT"
 else
   args=" --standalone"
 fi
