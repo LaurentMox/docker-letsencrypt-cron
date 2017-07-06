@@ -19,7 +19,15 @@ In docker-compose.yml, change the environment variables:
 ### Using the automated image
 
 ```shell
-docker run --name certbot -v `pwd`/certs:/certs --restart always -e "DOMAINS=domain1.com domain2.com" -e "EMAIL=webmaster@domain1.com" -e "CONCAT=true" -e "WEBROOT=" henridwyer/docker-letsencrypt-cron
+docker run --name certbot --restart=unless-stopped \
+    -v /etc/letsencrypt:/etc/letsencrypt \
+    -v /var/lib/letsencrypt:/var/lib/letsencrypt \
+    -v `pwd`/certs:/certs \
+    -e "DOMAINS=domain1.com domain2.com" \
+    -e "EMAIL=webmaster@domain1.com" \
+    -e "CONCAT=true" \
+    -e "WEBROOT=" \
+    sandinh/certbot-cron
 ```
 
 ### Building the image
