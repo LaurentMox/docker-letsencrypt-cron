@@ -11,11 +11,9 @@ RUN apk add --no-cache --virtual .build-deps linux-headers gcc musl-dev\
   && apk del .build-deps\
   && mkdir /scripts
 
-ADD crontab /etc/crontabs
-RUN crontab /etc/crontabs/crontab
-
-COPY ./scripts/ /scripts
-RUN chmod +x /scripts/run_certbot.sh
+COPY ./certbot/ /certbot
+RUN crontab /certbot/crontab && \
+    chmod +x /certbot/run_certbot.sh
 
 ENTRYPOINT []
 CMD ["crond", "-f"]
