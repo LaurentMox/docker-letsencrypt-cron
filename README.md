@@ -9,10 +9,11 @@ This image will renew your certificates every 2 months, and place the lastest on
 
 In docker-compose.yml, change the environment variables:
 - WEBROOT: set this variable to the webroot path if you want to use the webroot plugin. Leave to use the standalone webserver.
-- DOMAINS: a space separated list of domains for which you want to generate certificates.
+- DOMAINS: a space and comma separated list of domains for which you want to generate certificates.
+  This also used for separate purpose: one certificate valid for all *comma* seperated domains is generated for each space separated domain group.
+  ex: `a.com,www.a.com b.com,chat.b.com,www.b.com,b.net` then generate 2 cert named `a.com` & `b.com`
 - EMAIL: where you will receive updates from letsencrypt.
 - CONCAT: true or false, whether you want to concatenate the certificate's full chain with the private key (required for e.g. haproxy), or keep the two files separate (required for e.g. nginx or apache).
-- SEPARATE: true or false, whether you want one certificate per domain or one certificate valid for all domains. 
 
 ## Running
 
@@ -25,9 +26,8 @@ docker run --name certbot -d --restart=unless-stopped \
     -v `pwd`/certs:/certs \
     -v /var/www/html:/var/www/html \
     -e WEBROOT=/var/www/html \
-    -e DOMAINS="domain1.com domain2.com" \
+    -e DOMAINS="domain1.com,www.domain1.com,domain1.net domain2.com,www.domain2.com" \
     -e EMAIL=webmaster@domain1.com \
-    -e SEPARATE=false \
     -e CONCAT=false \
     sandinh/certbot-cron
 ```

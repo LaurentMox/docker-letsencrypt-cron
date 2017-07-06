@@ -46,14 +46,8 @@ then
   args=$args" --debug"
 fi
 
-if $SEPARATE
-then
-  for d in $DOMAINS
-  do
-    CERT_DOMAINS=$d
-    get_certificate
-  done
-else
-  CERT_DOMAINS=${DOMAINS// /,}
-  get_certificate
-fi
+for d in $DOMAINS
+do
+CERT_DOMAINS=$d
+get_certificate
+done

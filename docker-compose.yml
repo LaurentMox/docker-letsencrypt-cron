@@ -9,7 +9,6 @@ services:
     restart: always
     environment:
       - WEBROOT=""
-      - DOMAINS=domain1.com domain2.com
+      - DOMAINS=domain1.com,www.domain1.com,domain1.net domain2.com,www.domain2.com
       - EMAIL=webmaster@domain1.com
       - CONCAT=true
-      - SEPARATE=true
