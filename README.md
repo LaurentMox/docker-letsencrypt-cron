@@ -33,7 +33,7 @@ docker-compose up -d
 The first time you start it up, you may want to run the certificate generation script immediately:
 
 ```shell
-docker exec certbot ash -c "/scripts/run_certbot.sh"
+docker exec certbot ash -c "/certbot/run_certbot.sh"
 ```
 
 At 3AM, on the 1st of every odd month, a cron job will start the script, renewing your certificates.

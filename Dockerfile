@@ -16,4 +16,4 @@ RUN crontab /certbot/crontab && \
     chmod +x /certbot/run_certbot.sh
 
 ENTRYPOINT []
-CMD ["crond", "-f"]
+CMD ["crond", "-f", "-d", "1"]
