@@ -1,5 +1,5 @@
 FROM certbot/certbot
-MAINTAINER thanhbv <thanhbv@sandinh.net>
+MAINTAINER laurentmox
 
 VOLUME /certs
 

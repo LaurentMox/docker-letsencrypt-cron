@@ -1,5 +1,5 @@
+#!/usr/bin/env bash
 # see https://certbot.eff.org/docs/using.html#certbot-command-line-options
-
 IFS='|'
 for args in $LOOP_ARGS; do
 echo "Running: certbot $COMMON_ARGS $args"
