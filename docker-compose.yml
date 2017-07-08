@@ -4,12 +4,15 @@ services:
   certbot:
     build: .
     container_name: certbot
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./certs:/certs
+      #      - /etc/letsencrypt:/etc/letsencrypt \
+      #      - /var/lib/letsencrypt:/var/lib/letsencrypt \
+      #      - /var/www/domain1:/var/www/domain1 \
+      #      - /var/www/domain2:/var/www/domain2
     restart: unless-stopped
-#    volumes:
-#      - /etc/letsencrypt:/etc/letsencrypt \
-#      - /var/lib/letsencrypt:/var/lib/letsencrypt \
-#      - /var/www/domain1:/var/www/domain1 \
-#      - /var/www/domain2:/var/www/domain2
     environment:
       - COMMON_ARGS=certonly --agree-tos --non-interactive --keep-until-expiring --email webmaster@domain1.com --webroot
       - LOOP_ARGS=-w /var/www/domain1 -d domain1.com,www.domain1.com,domain1.net | -w /var/www/domain2 -d domain2.com,www.domain2.com
+      - NGINX_PROXY_CONTAINER=nginx-proxy
