@@ -22,7 +22,7 @@ docker run --name certbot -d --restart=unless-stopped \
     -v /var/www/domain1:/var/www/domain1 \
     -v /var/www/domain2:/var/www/domain2 \
     -e COMMON_ARGS="certonly --agree-tos --non-interactive --keep-until-expiring --email webmaster@domain1.com --webroot" \
-    -e LOOP_ARGS="-w /var/www/domain1 -d domain1.com,www.domain1.com,domain1.net | -w /var/www/domain2 domain2.com,www.domain2.com" \
+    -e LOOP_ARGS="-w /var/www/domain1 -d domain1.com,www.domain1.com,domain1.net | -w /var/www/domain2 -d domain2.com,www.domain2.com" \
     sandinh/certbot-cron
 ```
 
