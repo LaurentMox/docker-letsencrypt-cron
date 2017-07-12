@@ -1,19 +1,15 @@
 # docker-letsencrypt-cron
 Create and automatically renew website SSL certificates using the letsencrypt free certificate authority, and its client *certbot*.
 
-This image will renew your certificates every 2 months, and place the lastest ones in the /certs folder in the container, and in the ./certs folder on the host.
+This image will renew your certificates every 2 months.
 
 # Usage
 
 ## Setup
 
 In docker-compose.yml, change the environment variables:
-- WEBROOT: set this variable to the webroot path if you want to use the webroot plugin. Leave to use the standalone webserver.
-- DOMAINS: a space and comma separated list of domains for which you want to generate certificates.
-  This also used for separate purpose: one certificate valid for all *comma* seperated domains is generated for each space separated domain group.
-  ex: `a.com,www.a.com b.com,chat.b.com,www.b.com,b.net` then generate 2 cert named `a.com` & `b.com`
-- EMAIL: where you will receive updates from letsencrypt.
-- CONCAT: true or false, whether you want to concatenate the certificate's full chain with the private key (required for e.g. haproxy), or keep the two files separate (required for e.g. nginx or apache).
+- COMMON_ARGS: those arguments will be passed to each call of certbot command
+- LOOP_ARGS: a `|` separated list of arguments list. Each list will be passed to a separated certbot command.
 
 ## Running
 
@@ -23,12 +19,10 @@ In docker-compose.yml, change the environment variables:
 docker run --name certbot -d --restart=unless-stopped \
     -v /etc/letsencrypt:/etc/letsencrypt \
     -v /var/lib/letsencrypt:/var/lib/letsencrypt \
-    -v `pwd`/certs:/certs \
-    -v /var/www/html:/var/www/html \
-    -e WEBROOT=/var/www/html \
-    -e DOMAINS="domain1.com,www.domain1.com,domain1.net domain2.com,www.domain2.com" \
-    -e EMAIL=webmaster@domain1.com \
-    -e CONCAT=false \
+    -v /var/www/domain1:/var/www/domain1 \
+    -v /var/www/domain2:/var/www/domain2 \
+    -e COMMON_ARGS="certonly --agree-tos --non-interactive --keep-until-expiring --email webmaster@domain1.com --webroot" \
+    -e LOOP_ARGS="-w /var/www/domain1 -d domain1.com,www.domain1.com,domain1.net | -w /var/www/domain2 domain2.com,www.domain2.com" \
     sandinh/certbot-cron
 ```
 

@@ -4,11 +4,12 @@ services:
   certbot:
     build: .
     container_name: certbot
-    volumes:
-      - ./certs:/certs
-    restart: always
+    restart: unless-stopped
+#    volumes:
+#      - /etc/letsencrypt:/etc/letsencrypt \
+#      - /var/lib/letsencrypt:/var/lib/letsencrypt \
+#      - /var/www/domain1:/var/www/domain1 \
+#      - /var/www/domain2:/var/www/domain2
     environment:
-      - WEBROOT=""
-      - DOMAINS=domain1.com,www.domain1.com,domain1.net domain2.com,www.domain2.com
-      - EMAIL=webmaster@domain1.com
-      - CONCAT=true
+      - COMMON_ARGS=certonly --agree-tos --non-interactive --keep-until-expiring --email webmaster@domain1.com --webroot
+      - LOOP_ARGS=-w /var/www/domain1 -d domain1.com,www.domain1.com,domain1.net | -w /var/www/domain2 domain2.com,www.domain2.com
