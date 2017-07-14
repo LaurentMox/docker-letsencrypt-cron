@@ -1,1 +1,1 @@
-0 7 * * 3 sh /certbot/run_certbot.sh 2>&1 /dev/stdout
+0 7 * * 3 /bin/bash /certbot/run_certbot.sh 2>&1 /dev/stdout
