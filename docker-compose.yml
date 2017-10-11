@@ -6,13 +6,10 @@ services:
     container_name: certbot
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./certs:/certs
-      #      - /etc/letsencrypt:/etc/letsencrypt \
-      #      - /var/lib/letsencrypt:/var/lib/letsencrypt \
-      #      - /var/www/domain1:/var/www/domain1 \
-      #      - /var/www/domain2:/var/www/domain2
+      - letsencrypt:/etc/letsencrypt
     restart: unless-stopped
     environment:
-      - COMMON_ARGS=certonly --agree-tos --non-interactive --keep-until-expiring --email webmaster@domain1.com --webroot
-      - LOOP_ARGS=-w /var/www/domain1 -d domain1.com,www.domain1.com,domain1.net | -w /var/www/domain2 -d domain2.com,www.domain2.com
-      - NGINX_PROXY_CONTAINER=nginx-proxy
+      - COMMON_ARGS=certonly --agree-tos --non-interactive --keep-until-expiring --email admin@laurent.sh --standalone --preferred-challenges http
+      - LOOP_ARGS=-d seed.laurent.sh | -d laurent.sh,www.laurent.sh | -d git.laurent.sh
+      - DOCKER_HOTS=unix:///var/run/docker.sock
+      - NGINX_PROXY_CONTAINER=nginx
