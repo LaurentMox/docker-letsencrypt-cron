@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # From https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion/blob/master/app/functions.sh
 ## Docker API
 function docker_api {
