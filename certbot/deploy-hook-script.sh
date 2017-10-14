@@ -7,6 +7,7 @@ set -e
 
 for domain in $RENEWED_DOMAINS; do
         cert_root="/certs/$domain/"
+        mkdir -p $cert_root
 
         # Make sure the certificate and private key files are
         # never world readable, even just for an instant while
